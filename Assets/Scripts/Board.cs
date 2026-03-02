@@ -141,6 +141,7 @@ public class Board : MonoBehaviour
             if (isValidWord)
             {
 
+                SoundPlayer.Instance.PlayOneShot("correct");
                 for (int i = 0; i < row.tiles.Length; i++)
                 {
                     char guessedLetter = row.tiles[i].Letter;
@@ -173,6 +174,7 @@ public class Board : MonoBehaviour
                 Debug.Log("Invalid guess: " + guess);
                 infoTextManager.ChooseText(InfoTextState.WordNotFound);
                 isValidWord = false;
+                SoundPlayer.Instance.PlayOneShot("wrong");
                 // provide feedback to the player about the invalid guess
             }
             if (row.tiles[0].Letter == wp.solution[0] &&
@@ -194,6 +196,7 @@ public class Board : MonoBehaviour
                 {
                     gm.timerIsRunning = false;
                 }
+                SoundPlayer.Instance.PlayOneShot("gameover");
                 Debug.Log("Game Over! The correct word was: " + wp.solution);
                 return;
             }
@@ -324,6 +327,7 @@ public class Board : MonoBehaviour
             p.PlayParticles();
         }
         gm.levelText.text = "LEVEL: " + gm.currentLevel;
+        SoundPlayer.Instance.PlayOneShot("level");
         NewGame();
         return;
     }

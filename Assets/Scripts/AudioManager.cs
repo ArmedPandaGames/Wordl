@@ -9,13 +9,34 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        SoundPlayer.Instance.Play("music");
     }
 
     public void MuteAudio()
     {
+        SoundPlayer.Instance.PlayOneShot("toggle");
         if (audioSource != null)
         {
-            audioSource.mute = !audioSource.mute;
+            foreach (Sound s in SoundPlayer.Instance.sounds)
+            {
+                if (s.id != "music") // Don't mute music when muting audio
+                    s.source.mute = !s.source.mute;
+            }
+        }
+    }
+
+    public void MuteMusic()
+    {
+        SoundPlayer.Instance.PlayOneShot("toggle");
+        if (audioSource != null)
+        {
+            foreach (Sound s in SoundPlayer.Instance.sounds)
+            {
+                if (s.id == "music")
+                {
+                    s.source.mute = !s.source.mute;
+                }
+            }
         }
     }
 }

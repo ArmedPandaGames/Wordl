@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
                 timeRemaining = 0;
                 timerIsRunning = false;
                 gameOverScreen.SetActive(true);
+                SoundPlayer.Instance.PlayOneShot("gameover");
 
             }
         }
@@ -63,12 +64,16 @@ public class GameManager : MonoBehaviour
             finalTimeText.text = "TIME PLAYED: " + totalTime.ToString("F2");
             finalLevelText.text = "FINAL LEVEL: " + currentLevel.ToString();
             gameOverScreen.SetActive(true);
+            //SoundPlayer.Instance.PlayOneShot("gameover");
+            return;
+
         }
 
     }
 
     public void PauseGame()
     {
+        SoundPlayer.Instance.PlayOneShot("menu");
         isPaused = !isPaused;
         pauseMenu.SetActive(isPaused);
         Time.timeScale = isPaused ? 0 : 1;
@@ -76,6 +81,7 @@ public class GameManager : MonoBehaviour
 
     public void UseTimerToggle()
     {
+        SoundPlayer.Instance.PlayOneShot("toggle");
         useTimer = !useTimer;
         if (useTimer)
         {
