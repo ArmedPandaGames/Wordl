@@ -21,11 +21,18 @@ public class GameManager : MonoBehaviour
     public bool timerIsRunning = false;
     private float totalTime = 0f;
 
+    public bool isPaused = false;
+    public GameObject pauseMenu;
+    public bool useTimer = true;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        useTimer = true;
         board = FindObjectOfType<Board>();
         gameOverScreen.SetActive(false);
+        pauseMenu.SetActive(false);
         timeRemaining = timeLimit;
         timerIsRunning = true;
     }
@@ -33,7 +40,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timerIsRunning)
+        if (timerIsRunning && useTimer)
         {
             if (timeRemaining > 0)
             {
@@ -58,5 +65,27 @@ public class GameManager : MonoBehaviour
             gameOverScreen.SetActive(true);
         }
 
+    }
+
+    public void PauseGame()
+    {
+        isPaused = !isPaused;
+        pauseMenu.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0 : 1;
+    }
+
+    public void UseTimerToggle()
+    {
+        useTimer = !useTimer;
+        if (useTimer)
+        {
+            timeRemaining = timeLimit;
+            timerIsRunning = true;
+        }
+        else
+        {
+            timerIsRunning = false;
+            timerText.text = "TIMER OFF";
+        }
     }
 }

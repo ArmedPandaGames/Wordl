@@ -42,7 +42,7 @@ public class Board : MonoBehaviour
 
     private void Update()
     {
-        if (gm.timerIsRunning == false)
+        if (gm.timerIsRunning == false && gm.useTimer)
         {
             gameOver = true;
             return; // Don't process input if the timer isn't running
@@ -62,7 +62,7 @@ public class Board : MonoBehaviour
             Debug.LogWarning("Current row or its tiles are not initialized.");
             return;
         }
-        if (!gameOver)
+        if (!gameOver && !gm.isPaused)
         {
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
@@ -121,7 +121,7 @@ public class Board : MonoBehaviour
             return;
         }
 
-        if (columnIndex >= row.tiles.Length)
+        if (columnIndex >= row.tiles.Length && !gm.isPaused)
         {
 
 
@@ -190,7 +190,10 @@ public class Board : MonoBehaviour
             if (rowIndex >= rows.Length - 1 && isValidWord)
             {
                 gameOver = true;
-                gm.timerIsRunning = false;
+                if (gm.useTimer)
+                {
+                    gm.timerIsRunning = false;
+                }
                 Debug.Log("Game Over! The correct word was: " + wp.solution);
                 return;
             }
@@ -211,7 +214,7 @@ public class Board : MonoBehaviour
         if (rows == null || rows.Length == 0) return;
         Row currentRow = rows[rowIndex];
         if (currentRow == null) return;
-        if (columnIndex < currentRow.tiles.Length)
+        if (columnIndex < currentRow.tiles.Length && !gm.isPaused)
         {
             infoTextManager.ChooseText(InfoTextState.NotEnoughLetters);
             return;
@@ -226,7 +229,7 @@ public class Board : MonoBehaviour
         Row currentRow = rows[rowIndex];
         if (currentRow == null) return;
 
-        if (columnIndex > 0)
+        if (columnIndex > 0 && !gm.isPaused)
         {
             columnIndex--;
             if (columnIndex < currentRow.tiles.Length)
@@ -240,7 +243,7 @@ public class Board : MonoBehaviour
         Row currentRow = rows[rowIndex];
         if (currentRow == null) return;
 
-        if (index >= 0 && index < SUPPORTED_KEYS.Length)
+        if (index >= 0 && index < SUPPORTED_KEYS.Length && !gm.isPaused)
         {
             if (columnIndex < currentRow.tiles.Length)
             {
@@ -329,7 +332,10 @@ public class Board : MonoBehaviour
     {
         gm.currentLevel = 1;
         gm.timeRemaining = gm.timeLimit;
-        gm.timerIsRunning = true;
+        if (gm.useTimer)
+        {
+            gm.timerIsRunning = true;
+        }
         gm.levelText.text = "LEVEL: " + gm.currentLevel;
         NewGame();
     }
