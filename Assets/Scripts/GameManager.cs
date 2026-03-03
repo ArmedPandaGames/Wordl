@@ -6,12 +6,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     Board board;
+    WordPicker wordPicker;
     public TMP_Text timerText;
     public TMP_Text levelText;
 
     // Game Over Screen UI
     public TMP_Text finalTimeText;
     public TMP_Text finalLevelText;
+    public TMP_Text SolutionText;
 
     public GameObject gameOverScreen;
 
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
     {
         useTimer = true;
         board = FindObjectOfType<Board>();
+        wordPicker = FindObjectOfType<WordPicker>();
         gameOverScreen.SetActive(false);
         pauseMenu.SetActive(false);
         timeRemaining = timeLimit;
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
         {
             finalTimeText.text = "TIME PLAYED: " + totalTime.ToString("F2");
             finalLevelText.text = "FINAL LEVEL: " + currentLevel.ToString();
+            SolutionText.text = "SOLUTION: " + wordPicker.solution.ToUpper();
             gameOverScreen.SetActive(true);
             //SoundPlayer.Instance.PlayOneShot("gameover");
             return;
