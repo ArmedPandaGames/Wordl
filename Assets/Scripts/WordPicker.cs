@@ -6,26 +6,29 @@ public class WordList
 {
     public string[] words;
 }
-
+[System.Serializable]
+public class SolutionList
+{
+    public string[] words;
+}
 public class WordPicker : MonoBehaviour
 {
-    //public TMP_Text wordDisplayText;
-
     public WordList wordList;
+    public SolutionList solutionList;
     public string solution;
     void Awake()
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>("Words/words");
-        wordList = JsonUtility.FromJson<WordList>(jsonFile.text);
-
+        TextAsset textFile = Resources.Load<TextAsset>("Words/words_all");
+        wordList.words = textFile.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+        TextAsset solutionFile = Resources.Load<TextAsset>("Words/solutions");
+        solutionList.words = solutionFile.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
         PickRandomWord();
     }
 
     public void PickRandomWord()
     {
-        int index = Random.Range(0, wordList.words.Length);
-        //wordDisplayText.text = wordList.words[index];
-        solution = wordList.words[index];
+        int index = Random.Range(0, solutionList.words.Length);
+        solution = solutionList.words[index];
         solution = solution.ToLower().Trim();
     }
 }
