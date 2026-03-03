@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     public TMP_Text timerText;
     public TMP_Text levelText;
 
+    //Start Menu UI
+    public GameObject startMenu;
+
+    public bool gameStarted = false;
+
     // Game Over Screen UI
     public TMP_Text finalTimeText;
     public TMP_Text finalLevelText;
@@ -38,11 +43,23 @@ public class GameManager : MonoBehaviour
         pauseMenu.SetActive(false);
         timeRemaining = timeLimit;
         timerIsRunning = true;
+        gameStarted = false;
+        startMenu.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        while (!gameStarted)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                SoundPlayer.Instance.PlayOneShot("menu");
+                startMenu.SetActive(false);
+                gameStarted = true;
+            }
+            return;
+        }
         if (timerIsRunning && useTimer)
         {
             if (timeRemaining > 0)
@@ -68,7 +85,6 @@ public class GameManager : MonoBehaviour
             finalLevelText.text = "FINAL LEVEL: " + currentLevel.ToString();
             SolutionText.text = "SOLUTION: " + wordPicker.solution.ToUpper();
             gameOverScreen.SetActive(true);
-            //SoundPlayer.Instance.PlayOneShot("gameover");
             return;
 
         }

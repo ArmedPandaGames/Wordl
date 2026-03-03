@@ -62,7 +62,7 @@ public class Board : MonoBehaviour
             Debug.LogWarning("Current row or its tiles are not initialized.");
             return;
         }
-        if (!gameOver && !gm.isPaused)
+        if (!gameOver && !gm.isPaused && gm.gameStarted)
         {
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
