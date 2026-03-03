@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public bool useTimer = true;
 
+    public GameObject howToPlayScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -113,5 +114,13 @@ public class GameManager : MonoBehaviour
             timerIsRunning = false;
             timerText.text = "TIMER OFF";
         }
+    }
+
+    public void ShowHowToPlay()
+    {
+        SoundPlayer.Instance.PlayOneShot("menu");
+        isPaused = !isPaused;
+        howToPlayScreen.SetActive(isPaused);
+        Time.timeScale = isPaused ? 0 : 1;
     }
 }
